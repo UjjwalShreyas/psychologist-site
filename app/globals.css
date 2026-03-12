@@ -1,26 +1,293 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ivory: #F8F5EF;
+  --teal: #0B5E56;
+  --teal-mid: #0D7A70;
+  --teal-soft: #E0EDEB;
+  --gold: #C9963C;
+  --gold-soft: #F5EDD8;
+  --crimson: #7f1d1d;
+  --ink: #1A1A1A;
+  --muted: #6B7280;
+  --card: #FFFFFF;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ivory: var(--ivory);
+  --color-teal: var(--teal);
+  --color-teal-mid: var(--teal-mid);
+  --color-teal-soft: var(--teal-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-crimson: var(--crimson);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-jakarta);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-jakarta), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+::selection {
+  background: var(--gold-soft);
+  color: var(--teal);
+}
+
+/* ===== FIXED FLOATING LABELS ===== */
+.inputbox {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  background: transparent; /* Let the input handle background */
+}
+
+/* The label - starts inside, floats up */
+.inputbox span {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  background: white;
+  padding: 0 4px;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 5;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* The required asterisk - hide browser default, show our own */
+.inputbox span .text-red-500 {
+  color: var(--crimson);
+  margin-left: 2px;
+  font-weight: 600;
+  display: inline; /* Ensure it's inline */
+}
+
+/* Hide browser's default required indicator */
+.inputbox input:required,
+.inputbox textarea:required,
+.inputbox select:required {
+  box-shadow: none; /* Remove default red shadow in some browsers */
+}
+
+/* Input fields */
+.inputbox input,
+.inputbox textarea,
+.inputbox select {
+  width: 100%;
+  padding: 16px 16px; /* Equal padding */
+  background: white;
+  border: 1.5px solid var(--teal-soft);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.2s ease;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Textarea specific */
+.inputbox textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Placeholder - invisible by design */
+.inputbox input::placeholder,
+.inputbox textarea::placeholder {
+  color: transparent;
+}
+
+/* FOCUS AND FILLED STATE - Label floats up */
+.inputbox input:focus ~ span,
+.inputbox input:not(:placeholder-shown) ~ span,
+.inputbox textarea:focus ~ span,
+.inputbox textarea:not(:placeholder-shown) ~ span,
+.inputbox select:focus ~ span,
+/* For select, we need a different approach since it doesn't use placeholder */
+.inputbox select:valid ~ span {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  font-size: 14px;
+  color: var(--teal);
+  font-weight: 600;
+  background: white;
+  padding: 0 6px;
+}
+
+/* Special handling for select (since it always has a value) */
+.inputbox select ~ span {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  color: var(--teal);
+  font-weight: 600;
+}
+
+/* Focus border and shadow */
+.inputbox input:focus,
+.inputbox textarea:focus,
+.inputbox select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(11, 94, 86, 0.08);
+}
+
+/* The decorative underline (optional) */
+.inputbox i {
+  position: absolute;
+  left: 16px;
+  bottom: 0;
+  width: calc(100% - 32px);
+  height: 2px;
+  background: var(--teal);
+  border-radius: 0 0 4px 4px;
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.inputbox input:focus ~ i,
+.inputbox textarea:focus ~ i,
+.inputbox select:focus ~ i {
+  transform: scaleX(1);
+}
+
+/* ===== TIME SLOT BUTTONS ===== */
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .time-slots-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.time-slot-btn {
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--teal-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.time-slot-btn:hover:not(:disabled) {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.time-slot-btn.selected {
+  background: var(--teal);
+  color: white;
+  border-color: var(--teal);
+}
+
+.time-slot-btn.booked {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+/* ===== SPINNER ===== */
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 20px;
+}
+
+.spinner span {
+  display: block;
+  width: 3px;
+  height: 12px;
+  background: currentColor;
+  border-radius: 4px;
+  animation: bounce 0.8s ease-in-out infinite;
+}
+
+.spinner span:nth-child(1) { animation-delay: 0.0s; }
+.spinner span:nth-child(2) { animation-delay: 0.1s; }
+.spinner span:nth-child(3) { animation-delay: 0.2s; }
+.spinner span:nth-child(4) { animation-delay: 0.3s; }
+.spinner span:nth-child(5) { animation-delay: 0.4s; }
+.spinner span:nth-child(6) { animation-delay: 0.5s; }
+.spinner span:nth-child(7) { animation-delay: 0.6s; }
+.spinner span:nth-child(8) { animation-delay: 0.7s; }
+
+@keyframes bounce {
+  0%, 100% { transform: scaleY(0.6); opacity: 0.4; }
+  50% { transform: scaleY(1.4); opacity: 1; }
+}
+
+.spinner.scale-50 {
+  transform: scale(0.5);
+}
+
+/* ===== MESSAGES ===== */
+.text-green-600 {
+  color: #059669;
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .inputbox input,
+  .inputbox textarea,
+  .inputbox select {
+    font-size: 16px;
+    padding: 14px 14px;
+  }
+  
+  .inputbox span {
+    left: 14px;
+    font-size: 14px;
+  }
+  
+  /* Adjust floating position for mobile */
+  .inputbox input:focus ~ span,
+  .inputbox input:not(:placeholder-shown) ~ span,
+  .inputbox textarea:focus ~ span,
+  .inputbox textarea:not(:placeholder-shown) ~ span {
+    top: 0;
+    transform: translateY(-50%) scale(0.85);
+    font-size: 12px;
+  }
 }
