@@ -31,7 +31,7 @@ export default function AboutDoctor() {
             style={{ backgroundColor: "var(--ivory)", borderColor: "var(--teal-soft)" }}
           >
             <p className="font-sans text-xs uppercase tracking-widest" style={{ color: "var(--muted)" }}>Certified</p>
-            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}>M.Sc Psychology</p>
+            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}>MA Psychology</p>
           </motion.div>
         </motion.div>
 
