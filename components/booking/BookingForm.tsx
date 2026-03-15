@@ -98,8 +98,11 @@ export default function BookingForm() {
             </h2>
             <div className="mt-3 w-12 h-0.5 rounded-full mx-auto" style={{ backgroundColor: "var(--gold)" }} />
             <p className="mt-4 text-sm font-sans" style={{ color: "var(--muted)" }}>
-              Fill the form below and we'll confirm your slot.
-            </p>
+  Fill the form below and we'll confirm your slot.
+</p>
+<span className="inline-block mt-3 px-4 py-1.5 rounded-full text-xs font-semibold font-sans" style={{ backgroundColor: "var(--teal-soft)", color: "var(--teal)" }}>
+  ✦ Appointment is free to book . Pay only after your session. ✦
+</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>

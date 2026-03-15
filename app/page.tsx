@@ -46,14 +46,17 @@ export default function Home() {
 
               <div className="mt-10 flex flex-wrap gap-4">
                 <a href="#booking">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="bg-crimson text-ivory px-8 py-3.5 rounded-full font-sans font-semibold text-sm tracking-wide shadow-md hover:shadow-lg transition-all"
-                  >
-                    Book an Appointment
-                  </motion.button>
-                </a>
+  <motion.button
+    whileHover={{ scale: 1.03 }}
+    whileTap={{ scale: 0.97 }}
+    className="bg-crimson text-ivory px-8 py-3.5 rounded-full font-sans font-semibold text-sm tracking-wide shadow-md hover:shadow-lg transition-all"
+  >
+    Book an Appointment
+  </motion.button>
+</a>
+<p className="text-xs font-sans mt-2" style={{ color: "var(--muted)" }}>
+  ✦ Free to book · Pay only after your session
+</p>
                 <a href="/about">
                   <motion.button
                     whileHover={{ scale: 1.03 }}

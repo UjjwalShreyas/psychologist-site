@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import WhatsAppButton from "../components/whatsapp/WhatsAppButton";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -26,7 +25,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body className={`${cormorant.variable} ${jakarta.variable}`}>
         {children}
-        <WhatsAppButton />
         <body className={`${cormorant.variable} ${jakarta.variable}`} suppressHydrationWarning></body>
       </body>
     </html>
