@@ -81,44 +81,44 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "Failed to save appointment" }, { status: 500 });
     }
 
-    // Email to doctor
-    transporter.sendMail({
-      from: `"Appointment System" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `New Appointment Request from ${name}`,
-      html: `
-        <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;">
-          <h2 style="color:#0B5E56;">New Appointment Booking</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Session:</strong> ${sessionLabel}</p>
-          <p><strong>Date:</strong> ${date} at ${time}</p>
-          <p><strong>Message:</strong> ${message || "None"}</p>
-        </div>
-      `,
-    }).catch(err => console.error("Doctor email failed:", err));
+   // Email to doctor
+await transporter.sendMail({
+  from: `"Appointment System" <${process.env.GMAIL_USER}>`,
+  to: process.env.GMAIL_USER,
+  subject: `New Appointment Request from ${name}`,
+  html: `
+    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;">
+      <h2 style="color:#0B5E56;">New Appointment Booking</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Session:</strong> ${sessionLabel}</p>
+      <p><strong>Date:</strong> ${date} at ${time}</p>
+      <p><strong>Message:</strong> ${message || "None"}</p>
+    </div>
+  `,
+}).catch(err => console.error("Doctor email failed:", err));
 
-    // Confirmation email to patient
-    transporter.sendMail({
-      from: `"G. Suma Kavitha" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Appointment Request Received – G. Suma Kavitha",
-      html: `
-        <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;border:1px solid #e0edeb;border-radius:16px;">
-          <h2 style="color:#0B5E56;">Thank you, ${name}! 🙏</h2>
-          <p>Your appointment request has been received and is pending confirmation.</p>
-          <div style="background:#f0f9f8;border-radius:12px;padding:16px 20px;margin:20px 0;">
-            <p style="margin:4px 0;"><strong>Session:</strong> ${sessionLabel}</p>
-            <p style="margin:4px 0;"><strong>Date:</strong> ${date}</p>
-            <p style="margin:4px 0;"><strong>Time:</strong> ${time}</p>
-          </div>
-          <p>You will receive another email once your slot is confirmed.</p>
-          <br/>
-          <p style="color:#888;font-size:12px;">G. Suma Kavitha | Counselling Psychologist, Hyderabad</p>
-        </div>
-      `,
-    }).catch(err => console.error("Patient email failed:", err));
+// Confirmation email to patient
+await transporter.sendMail({
+  from: `"G. Suma Kavitha" <${process.env.GMAIL_USER}>`,
+  to: email,
+  subject: "Appointment Request Received – G. Suma Kavitha",
+  html: `
+    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;border:1px solid #e0edeb;border-radius:16px;">
+      <h2 style="color:#0B5E56;">Thank you, ${name}! 🙏</h2>
+      <p>Your appointment request has been received and is pending confirmation.</p>
+      <div style="background:#f0f9f8;border-radius:12px;padding:16px 20px;margin:20px 0;">
+        <p style="margin:4px 0;"><strong>Session:</strong> ${sessionLabel}</p>
+        <p style="margin:4px 0;"><strong>Date:</strong> ${date}</p>
+        <p style="margin:4px 0;"><strong>Time:</strong> ${time}</p>
+      </div>
+      <p>You will receive another email once your slot is confirmed.</p>
+      <br/>
+      <p style="color:#888;font-size:12px;">G. Suma Kavitha | Counselling Psychologist, Hyderabad</p>
+    </div>
+  `,
+}).catch(err => console.error("Patient email failed:", err));
 
     return NextResponse.json({ success: true, message: "Appointment request submitted successfully!" });
 
