@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 G. Suma Kavitha — Counselling Psychologist Website
 
-## Getting Started
+A full-stack professional website built for a real client — G. Suma Kavitha, a Counselling Psychologist based in Hyderabad. Designed, developed, and deployed solo as a freelance project.
 
-First, run the development server:
+🌐 **Live Site:** [sumakavitha.online](https://sumakavitha.online)
+
+---
+
+## ✨ Features
+
+- **Appointment Booking System** — patients can book in-person or online sessions, with real-time slot availability
+- **Email Notifications** — automatic confirmation emails to patients + alerts to the doctor on every booking
+- **Admin Dashboard** — protected dashboard to approve/reject appointments with one click
+- **Double Booking Prevention** — approved slots are blocked in real-time via Supabase
+- **Secure Auth** — HTTP-only cookie based admin authentication, protected by Next.js middleware
+- **Fully Responsive** — mobile-first design, tested across devices
+- **Custom Domain** — deployed on Vercel with a custom domain
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Database | Supabase (PostgreSQL) |
+| Storage | Supabase Storage |
+| Email | Nodemailer + Gmail SMTP |
+| Deployment | Vercel |
+| Auth | HTTP-only cookies + Next.js middleware |
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+  admin/          → protected admin dashboard
+  api/
+    book/         → booking API with validation + double booking check
+    adminLogin/   → cookie-based auth
+    adminLogout/  → clears auth cookie
+    checkAuth/    → validates session
+    notify/       → sends approval/rejection emails to patients
+  login/          → admin login page
+  about/
+  services/
+  contact/
+  gallery/
+components/
+  navbar/
+  booking/        → BookingForm with real-time slot blocking
+  about/
+  services/
+  stats/
+  contact/
+  footer/
+middleware.ts     → server-side route protection for /admin
+```
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/UjjwalShreyas/psychologist-site.git
+cd psychologist-site
+npm install
+```
+
+Create a `.env.local` file with:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+GMAIL_USER=your_gmail
+GMAIL_PASS=your_gmail_app_password
+ADMIN_PASSWORD=your_admin_password
+DOCTOR_EMAIL=doctor_email
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗄 Database Schema (Supabase)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sql
+create table appointments (
+  id uuid default gen_random_uuid() primary key,
+  name text,
+  phone text,
+  email text,
+  session_type text,
+  date text,
+  time text,
+  message text,
+  status text default 'pending',
+  created_at timestamp default now()
+);
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 👨‍💻 About
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Built solo by **Ujjwal Shreyas .G** — CS student and freelance developer.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[GitHub](https://github.com/UjjwalShreyas) · [LinkedIn](https://linkedin.com/in/ujjwalshreyas)
