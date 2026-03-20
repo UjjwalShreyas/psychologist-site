@@ -7,7 +7,13 @@ const galleryImages = [
   { src: `${BASE}/workshop-1.jpg.jpeg`, label: "Group Workshop" },
   { src: `${BASE}/workshop-2.jpg.jpeg`, label: "Awareness Session" },
   { src: `${BASE}/workshop-3.jpg.jpeg`, label: "Teen Counselling Camp" },
-  { src: `${BASE}/workshop-4.jpg.jpeg`, label: " Therapy Session" },
+  { src: `${BASE}/workshop-4.jpg.jpeg`, label: "Therapy Session" },
+  { src: `${BASE}/workshop-5.jpeg`, label: "School Session" },
+  { src: `${BASE}/workshop-6.jpeg`, label: "Study Skills Workshop" },
+  { src: `${BASE}/workshop-7.jpeg`, label: "Motivational Talk" },
+  { src: `${BASE}/workshop-8.jpeg`, label: "Student Engagement" },
+  { src: `${BASE}/workshop-9.jpeg`, label: "APA India Session" },
+  { src: `${BASE}/workshop-10.jpeg`, label: "Community Workshop" },
 ];
 
 export default function GalleryPage() {
@@ -42,7 +48,6 @@ export default function GalleryPage() {
                   alt={img.label}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Hover overlay */}
                 <div className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-all duration-300" style={{ background: "linear-gradient(to top, rgba(26,26,26,0.6), transparent)" }}>
                   <span className="font-display italic text-white text-xl translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                     {img.label}
@@ -50,13 +55,6 @@ export default function GalleryPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* When clinic photos are ready — just add to galleryImages array */}
-          <div className="mt-8 text-center">
-            <p className="text-xs font-sans" style={{ color: "var(--muted)" }}>
-              More photos coming very soon ✦
-            </p>
           </div>
 
           {/* Bottom CTA */}
