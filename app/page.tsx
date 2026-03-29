@@ -8,6 +8,7 @@ import Stats from "../components/stats/Stats";
 import BookingForm from "../components/booking/BookingForm";
 import Contact from "../components/contact/Contact";
 import Footer from "../components/footer/Footer";
+import Reviews from "../components/reviews/Reviews";
 
 export default function Home() {
   return (
@@ -139,8 +140,9 @@ export default function Home() {
         <AboutDoctor />
         <Services />
         <Stats />
+        <Reviews />
         <BookingForm />
-        <Contact />
+         <Contact />
 
       </main>
       <Footer />
