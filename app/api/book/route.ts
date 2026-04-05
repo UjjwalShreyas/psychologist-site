@@ -15,10 +15,22 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+import { rateLimit } from "@/lib/rate-limiter";
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    const { success: rateLimitSuccess } = await rateLimit(ip, 5, 3600000); // 5 bookings/hr
+    if (!rateLimitSuccess) {
+      return NextResponse.json({ success: false, message: "Too many requests. Please try again later." }, { status: 429 });
+    }
+
     const body = await req.json();
-    const { name, phone, email, sessionType, date, time, message } = body;
+    let { name, phone, email, sessionType, date, time, message } = body;
+
+    // Basic sanitization
+    name = name?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+    message = message?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
 
     if (!name || !phone || !email || !sessionType || !date || !time) {
       return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });

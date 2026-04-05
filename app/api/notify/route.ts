@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { verifyJwtToken } from "@/lib/auth";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -10,6 +11,11 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(req: NextRequest) {
+  // Validate token to ensure only Admin can use this route
+  const token = req.cookies.get("admin_session")?.value;
+  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const payload = await verifyJwtToken(token);
+  if (!payload?.admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { name, email, date, time, sessionType, status } = await req.json();
   const isApproved = status === "approved";

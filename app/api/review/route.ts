@@ -16,14 +16,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+import { rateLimit } from "@/lib/rate-limiter";
+
 export async function POST(req: NextRequest) {
   try {
-    const { rating, review, sessionType, email } = await req.json();
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    const { success: rateLimitSuccess } = await rateLimit(ip, 3, 3600000); // 3 reviews/hr
+    if (!rateLimitSuccess) {
+      return NextResponse.json({ success: false, message: "Too many requests. Try again later." }, { status: 429 });
+    }
+
+    let { rating, review, sessionType, email } = await req.json();
+
+    review = review?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
 
     if (!rating || rating < 1 || rating > 5)
       return NextResponse.json({ success: false, message: "Invalid rating" }, { status: 400 });
 
-    if (!review || review.trim().length < 10)
+    if (!review || review.length < 10)
       return NextResponse.json({ success: false, message: "Review is too short (min 10 characters)" }, { status: 400 });
 
     if (review.length > 1000)

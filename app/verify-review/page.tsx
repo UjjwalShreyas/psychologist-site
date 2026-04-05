@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 function VerifyContent() {
   const searchParams = useSearchParams();
@@ -20,23 +15,13 @@ function VerifyContent() {
     if (!token) { setStatus("invalid"); return; }
 
     async function verify() {
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("id, status")
-        .eq("token", token)
-        .single();
-
-      if (error || !data) { setStatus("invalid"); return; }
-      if (data.status !== "unverified") { setStatus("already"); return; }
-
-      const { error: updateError } = await supabase
-        .from("reviews")
-        .update({ status: "pending" })
-        .eq("token", token);
-
-      if (updateError) { setStatus("invalid"); return; }
-
-      setStatus("success");
+      try {
+        const res = await fetch(`/api/verify-review?token=${token}`);
+        const data = await res.json();
+        setStatus(data.status); // e.g. 'success', 'already', 'invalid'
+      } catch (error) {
+        setStatus("invalid");
+      }
     }
 
     verify();

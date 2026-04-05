@@ -2,12 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function BookingForm() {
 
@@ -41,13 +36,17 @@ export default function BookingForm() {
   useEffect(() => {
     if (!form.date || form.sessionType !== "offline") return;
     async function fetchBookedSlots() {
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("time")
-        .eq("date", form.date)
-        .eq("status", "approved");
-      if (error) { console.error("Fetch error:", error); return; }
-      if (data) setBookedSlots(data.map((item) => item.time));
+      try {
+        const res = await fetch(`/api/public/booked-slots?date=${form.date}`);
+        if (res.ok) {
+          const data = await res.json();
+          setBookedSlots(data);
+        } else {
+          console.error("Fetch error:", await res.text());
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
     }
     fetchBookedSlots();
   }, [form.date, form.sessionType]);

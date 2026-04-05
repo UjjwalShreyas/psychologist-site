@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyJwtToken } from "./lib/auth";
 
-export function middleware(req: NextRequest) {
-  const cookie = req.cookies.get("admin_auth");
+export async function middleware(req: NextRequest) {
   const isAdminPage = req.nextUrl.pathname.startsWith("/admin");
 
-  if (isAdminPage && cookie?.value !== "true") {
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (isAdminPage) {
+    const token = req.cookies.get("admin_session")?.value;
+    
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    const payload = await verifyJwtToken(token);
+    
+    if (!payload?.admin) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
 
   return NextResponse.next();

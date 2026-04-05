@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 type Appointment = {
   id: string;
@@ -61,12 +56,12 @@ export default function AdminPage() {
 
   async function loadAppointments() {
     try {
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) { alert("Failed to load appointments."); return; }
+      const res = await fetch("/api/admin/appointments");
+      if (!res.ok) { alert("Failed to load appointments."); return; }
+      const data = await res.json();
       setAppointments(data || []);
+    } catch {
+      alert("Failed to load appointments.");
     } finally {
       setApptLoading(false);
     }
@@ -74,12 +69,12 @@ export default function AdminPage() {
 
   async function loadReviews() {
     try {
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) { alert("Failed to load reviews."); return; }
+      const res = await fetch("/api/admin/reviews");
+      if (!res.ok) { alert("Failed to load reviews."); return; }
+      const data = await res.json();
       setReviews(data || []);
+    } catch {
+      alert("Failed to load reviews.");
     } finally {
       setReviewsLoading(false);
     }
@@ -97,8 +92,12 @@ export default function AdminPage() {
     if (!confirm(`Are you sure you want to ${status} this appointment?`)) return;
     setUpdatingApptId(id);
     try {
-      const { error } = await supabase.from("appointments").update({ status }).eq("id", id);
-      if (error) { alert("Failed to update."); return; }
+      const res = await fetch("/api/admin/appointments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status })
+      });
+      if (!res.ok) { alert("Failed to update."); return; }
       if (appt.email) {
         fetch("/api/notify", {
           method: "POST",
@@ -117,8 +116,12 @@ export default function AdminPage() {
     if (!confirm(`Are you sure you want to ${status} this review?`)) return;
     setUpdatingReviewId(id);
     try {
-      const { error } = await supabase.from("reviews").update({ status }).eq("id", id);
-      if (error) { alert("Failed to update."); return; }
+      const res = await fetch("/api/admin/reviews", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status })
+      });
+      if (!res.ok) { alert("Failed to update."); return; }
       await loadReviews();
     } finally {
       setUpdatingReviewId(null);

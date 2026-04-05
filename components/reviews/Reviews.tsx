@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { createClient } from "@supabase/supabase-js";
 import ReviewForm from "./ReviewForm";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 type Review = {
   id: string;
@@ -72,14 +66,17 @@ export default function Reviews() {
 
   useEffect(() => {
     async function fetchReviews() {
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("id, rating, review, session_type, created_at")
-        .eq("status", "approved")
-        .order("created_at", { ascending: false });
-      console.log("reviews data:", data);
-      console.log("reviews error:", error);
-      if (data) setReviews(data);
+      try {
+        const res = await fetch("/api/public/reviews");
+        if (res.ok) {
+          const data = await res.json();
+          setReviews(data);
+        } else {
+          console.error("Failed to fetch reviews");
+        }
+      } catch (err) {
+        console.error("Fetch reviews error:", err);
+      }
     }
     fetchReviews();
   }, []);
