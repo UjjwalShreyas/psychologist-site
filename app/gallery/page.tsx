@@ -1,5 +1,11 @@
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Gallery | Workshops & Sessions by G. Suma Kavitha",
+  description: "A glimpse into workshops, awareness sessions, and the healing spaces created by psychologist G. Suma Kavitha.",
+};
 
 const BASE = "https://crrnxtuhatdpehghlwrf.supabase.co/storage/v1/object/public/images";
 

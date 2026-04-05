@@ -32,12 +32,12 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <span className="inline-block text-xs font-sans font-semibold tracking-[0.2em] uppercase text-gold mb-6">
-                Counselling Psychologist · Hyderabad
+                  A space to heal & a voice to guide.
               </span>
 
               <h1 className="font-display text-6xl md:text-7xl italic font-medium text-ink leading-[1.1]">
-                A space to heal,<br />
-                <span className="text-teal">a voice to guide.</span>
+                Counselling Psychologist <br />
+                <span className="text-teal"> , Hyderabad.</span>
               </h1>
 
               <p className="mt-6 text-base font-sans text-muted leading-relaxed max-w-md">

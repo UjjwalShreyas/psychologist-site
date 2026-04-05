@@ -17,7 +17,15 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "G. Suma Kavitha | Counselling Psychologist – Hyderabad",
-  description: "Professional counselling and psychological support for individuals, children, and families in Hyderabad.",
+  description: "Professional counselling and psychological support for individuals, teens, couples and families in Hyderabad. Book a session online or in-person.",
+  keywords: ["counselling psychologist hyderabad", "psychologist hyderabad", "online counselling hyderabad", "therapy hyderabad", "mental health hyderabad"],
+  openGraph: {
+    title: "G. Suma Kavitha | Counselling Psychologist – Hyderabad",
+    description: "Professional psychological support in Hyderabad. Compassionate. Confidential. Life-changing.",
+    url: "https://sumakavitha.online",
+    siteName: "G. Suma Kavitha",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
