@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJwtToken } from "./lib/auth";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const isAdminPage = req.nextUrl.pathname.startsWith("/admin");
 
   if (isAdminPage) {
