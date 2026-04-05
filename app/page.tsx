@@ -36,7 +36,7 @@ export default function Home() {
               </span>
 
               <h1 className="font-display text-6xl md:text-7xl italic font-medium text-ink leading-[1.1]">
-                Counselling Psychologist <br />
+                Counselling Psychologist ,<br />
                 <span className="text-teal"> , Hyderabad.</span>
               </h1>
 
