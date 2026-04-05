@@ -56,108 +56,111 @@ export default function ReviewForm() {
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
 
-          {/* Star Rating */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--teal)" }}>
-              Your Rating
-            </p>
-            <div className="flex gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHovered(star)}
-                  onMouseLeave={() => setHovered(0)}
-                  className="text-4xl transition-transform duration-150 hover:scale-110"
-                  style={{ color: star <= (hovered || rating) ? "var(--gold)" : "#d1d5db" }}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
-              Your Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="we'll send a verification link"
-              required
-              className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
-              style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)" }}
-            />
-            <p className="text-xs mt-1 font-sans" style={{ color: "var(--muted)" }}>
-              Only used for verification — never shown publicly.
-            </p>
-          </div>
-
-          {/* Session Type */}
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
-              Session Type (optional)
-            </label>
-            <select
-              value={sessionType}
-              onChange={(e) => setSessionType(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
-              style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)" }}
-            >
-              <option value="">Prefer not to say</option>
-              <option value="In-Person Session">In-Person Session</option>
-              <option value="Online Session">Online Session</option>
-            </select>
-          </div>
-
-          {/* Review */}
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
-              Your Review
-            </label>
-            <textarea
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              placeholder="Share how your experience was..."
-              rows={4}
-              required
-              className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
-              style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)", resize: "none" }}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={status === "sending" || rating === 0}
-            className="w-full py-3.5 rounded-full text-white font-sans font-semibold text-sm tracking-wide shadow-md hover:opacity-90 transition-all disabled:opacity-50"
-            style={{ backgroundColor: "var(--teal)" }}
-          >
-            {status === "sending" ? "Sending..." : "Submit Review"}
-          </button>
-
-          {status === "success" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              className="rounded-2xl p-4 text-center"
-              style={{ backgroundColor: "white", borderColor: "var(--teal-soft)" }}>
-              <p className="text-2xl mb-1">📬</p>
-              <p className="font-sans font-semibold text-sm" style={{ color: "var(--teal)" }}>
-                Verification email sent!
+          {status === "success" ? (
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+              className="rounded-2xl p-6 text-center border-2 shadow-lg mt-8"
+              style={{ backgroundColor: "#f0fdf4", borderColor: "#22c55e" }}>
+              <p className="text-5xl mb-3">🚨</p>
+              <p className="font-display font-semibold text-2xl text-green-800 mb-2">
+                One Last Step!
               </p>
-              <p className="text-xs font-sans mt-1" style={{ color: "var(--muted)" }}>
-                Check your inbox and click the link to verify your review.
+              <p className="text-base font-sans font-medium text-green-700">
+                A verification link has been sent to your email. <br/>
+                <strong>You MUST click the link sent to your email to publish this review.</strong>
               </p>
             </motion.div>
-          )}
+          ) : (
+            <>
+              {/* Star Rating */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--teal)" }}>
+                  Your Rating
+                </p>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHovered(star)}
+                      onMouseLeave={() => setHovered(0)}
+                      className="text-4xl transition-transform duration-150 hover:scale-110"
+                      style={{ color: star <= (hovered || rating) ? "var(--gold)" : "#d1d5db" }}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          {status !== "" && status !== "sending" && status !== "success" && (
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              className="text-red-500 font-medium text-sm font-sans text-center">
-              ❌ {status === "error" ? "Something went wrong. Please try again." : status}
-            </motion.p>
+              {/* Email */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Required: We will send you a verification link"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
+                  style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)" }}
+                />
+                <p className="text-xs mt-1 font-sans" style={{ color: "var(--muted)" }}>
+                  Only used for verification — never shown publicly.
+                </p>
+              </div>
+
+              {/* Session Type */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
+                  Session Type (optional)
+                </label>
+                <select
+                  value={sessionType}
+                  onChange={(e) => setSessionType(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
+                  style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)" }}
+                >
+                  <option value="">Prefer not to say</option>
+                  <option value="In-Person Session">In-Person Session</option>
+                  <option value="Online Session">Online Session</option>
+                </select>
+              </div>
+
+              {/* Review */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--teal)" }}>
+                  Your Review
+                </label>
+                <textarea
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                  placeholder="Share how your experience was..."
+                  rows={4}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border font-sans text-sm outline-none transition-all"
+                  style={{ borderColor: "var(--teal-soft)", backgroundColor: "white", color: "var(--ink)", resize: "none" }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={status === "sending" || rating === 0}
+                className="w-full py-3.5 rounded-full text-white font-sans font-semibold text-sm tracking-wide shadow-md hover:opacity-90 transition-all disabled:opacity-50"
+                style={{ backgroundColor: "var(--teal)" }}
+              >
+                {status === "sending" ? "Sending..." : "Submit & Verify via Email"}
+              </button>
+
+              {status !== "" && status !== "sending" && (
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="text-red-500 font-medium text-sm font-sans text-center">
+                  ❌ {status === "error" ? "Something went wrong. Please try again." : status}
+                </motion.p>
+              )}
+            </>
           )}
 
         </form>
