@@ -6,7 +6,7 @@ const stats = [
   { number: "10+", label: "Years of Experience" },
   { number: "1500+", label: "Clients Supported" },
   { number: "20+", label: "Workshops Conducted" },
-  { number: "2", label: "Session Formats" },
+  { number: "100%", label: "Client Satisfaction" },
 ];
 
 export default function Stats() {

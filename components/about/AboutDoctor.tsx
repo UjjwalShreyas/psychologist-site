@@ -30,8 +30,8 @@ export default function AboutDoctor() {
             className="absolute -bottom-6 -right-6 rounded-2xl px-5 py-4 shadow-md border"
             style={{ backgroundColor: "var(--ivory)", borderColor: "var(--teal-soft)" }}
           >
-            <p className="font-sans text-xs uppercase tracking-widest" style={{ color: "var(--muted)" }}>Certified</p>
-            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}>MA Psychology</p>
+            <p className="font-sans text-xs uppercase tracking-widest" style={{ color: "var(--muted)" }}>Counselling Psycologist</p>
+            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}> &  Psycotherapist</p>
           </motion.div>
         </motion.div>
 
@@ -67,7 +67,9 @@ export default function AboutDoctor() {
               "Individual Therapy",
               "Child Psychology",
               "Family Counselling",
-              "Online Sessions",
+              " Teen Therapy",
+              "Student Counselling",
+              "Online & Offline Sessions",
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <span className="text-xs" style={{ color: "var(--gold)" }}>✦</span>

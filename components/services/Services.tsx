@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 const services = [
-  { title: "Anxiety & Stress Counselling", icon: "🧘", desc: "Evidence-based strategies to manage anxiety and reclaim calm." },
+  { title: "Anxiety Counselling", icon: "🧘", desc: "Evidence-based strategies to manage anxiety and reclaim calm." },
   { title: "Depression Support", icon: "💙", desc: "Compassionate guidance through emotional darkness toward healing." },
   { title: "Child Behavioural Counselling", icon: "🌱", desc: "Nurturing healthy development and behaviour in young children." },
   { title: "Teen Counselling", icon: "✨", desc: "A safe space for adolescents navigating growth and identity." },
@@ -11,6 +11,9 @@ const services = [
   { title: "Couples Counselling", icon: "🤝", desc: "Strengthening relationships through understanding and trust." },
   { title: "Career Guidance", icon: "🎯", desc: "Aligning your strengths with purpose and professional clarity." },
   { title: "Trauma & Emotional Healing", icon: "🌿", desc: "Gentle, safe processing of past wounds toward wholeness." },
+  { title :" Group Therapy", icon: "👥", desc: "Shared healing and growth in a supportive group setting." },
+  { title : "Stress Management Workshops", icon: "⚡", desc: "Practical tools to manage stress and enhance resilience." },
+  { title : "Study Skills Coaching", icon: "📚", desc: "Empowering students with effective study habits and mindset." },
 ];
 
 export default function Services() {
