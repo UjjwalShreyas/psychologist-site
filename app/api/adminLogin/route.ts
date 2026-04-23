@@ -2,33 +2,41 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { signJwtToken } from "@/lib/auth";
 import { rateLimit } from "@/lib/rate-limiter";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  password: z.string().min(1).max(100),
+});
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") || "unknown";
-  const { success: rateLimitSuccess } = await rateLimit(ip, 5, 60000); // 5 attempts per minute
+  const { success: rateLimitSuccess } = await rateLimit(`login_${ip}`, 5, 60000); // 5 attempts per minute
 
   if (!rateLimitSuccess) {
     return NextResponse.json({ success: false, error: "Too many login attempts." }, { status: 429 });
   }
 
-  const { password } = await req.json();
+  let body;
+  try {
+    body = await req.json();
+  } catch (e) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
 
-  if (!password) {
+  const parsed = loginSchema.safeParse(body);
+  if (!parsed.success) {
     return NextResponse.json({ success: false }, { status: 401 });
   }
 
-  // Fallback to old plain text if NOT hashed yet, to prevent breaking production immediately.
-  // We strongly recommend storing the bcrypt hash in ADMIN_PASSWORD_HASH instead.
+  const { password } = parsed.data;
+
   const storedHash = process.env.ADMIN_PASSWORD_HASH;
-  const storedPlain = process.env.ADMIN_PASSWORD;
 
-  let isValid = false;
-
-  if (storedHash) {
-    isValid = bcrypt.compareSync(password, storedHash);
-  } else if (storedPlain) {
-    isValid = password === storedPlain;
+  if (!storedHash) {
+    return NextResponse.json({ success: false }, { status: 500 });
   }
+
+  const isValid = bcrypt.compareSync(password, storedHash);
 
   if (!isValid) {
     return NextResponse.json({ success: false }, { status: 401 });

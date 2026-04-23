@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { verifyJwtToken } from "@/lib/auth";
 
+import { z } from "zod";
+
 export async function GET(req: NextRequest) {
   // Validate token
   const token = req.cookies.get("admin_session")?.value;
@@ -9,8 +11,8 @@ export async function GET(req: NextRequest) {
   const payload = await verifyJwtToken(token);
   if (!payload?.admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
     return NextResponse.json({ error: "Missing DB configuration" }, { status: 500 });
@@ -34,14 +36,23 @@ export async function PATCH(req: NextRequest) {
   const payload = await verifyJwtToken(token);
   if (!payload?.admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id, status } = await req.json();
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  }
 
-  if (!id || !status) {
+  const parsed = z.object({ id: z.number().int(), status: z.string() }).safeParse(body);
+
+  if (!parsed.success) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const { id, status } = parsed.data;
+
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const supabase = createClient(supabaseUrl!, supabaseKey!);
 
   const { error } = await supabase

@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
 import { randomUUID } from "crypto";
+import { z } from "zod";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -18,29 +19,35 @@ const transporter = nodemailer.createTransport({
 
 import { rateLimit } from "@/lib/rate-limiter";
 
+const reviewSchema = z.object({
+  rating: z.number().min(1).max(5),
+  review: z.string().min(10, "Review is too short (min 10 characters)").max(1000, "Review is too long").transform(v => v.replace(/</g, "").replace(/>/g, "").trim()),
+  sessionType: z.string().optional().nullable(),
+  email: z.string().email("Invalid email address"),
+}).strict();
+
+
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for") || "unknown";
-    const { success: rateLimitSuccess } = await rateLimit(ip, 3, 3600000); // 3 reviews/hr
+    const { success: rateLimitSuccess } = await rateLimit(`review_${ip}`, 3, 3600000); // 3 reviews/hr
     if (!rateLimitSuccess) {
       return NextResponse.json({ success: false, message: "Too many requests. Try again later." }, { status: 429 });
     }
 
-    let { rating, review, sessionType, email } = await req.json();
+    let body;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ success: false, message: "Invalid payload" }, { status: 400 });
+    }
 
-    review = review?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+    const parsed = reviewSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ success: false, message: parsed.error.issues[0].message }, { status: 400 });
+    }
 
-    if (!rating || rating < 1 || rating > 5)
-      return NextResponse.json({ success: false, message: "Invalid rating" }, { status: 400 });
-
-    if (!review || review.length < 10)
-      return NextResponse.json({ success: false, message: "Review is too short (min 10 characters)" }, { status: 400 });
-
-    if (review.length > 1000)
-      return NextResponse.json({ success: false, message: "Review is too long" }, { status: 400 });
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      return NextResponse.json({ success: false, message: "Invalid email address" }, { status: 400 });
+    const { rating, review, sessionType, email } = parsed.data;
 
     const token = randomUUID();
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sumakavitha.online";

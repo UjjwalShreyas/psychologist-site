@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
+import { z } from "zod";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 const transporter = nodemailer.createTransport({
@@ -17,45 +18,37 @@ const transporter = nodemailer.createTransport({
 
 import { rateLimit } from "@/lib/rate-limiter";
 
+const bookingSchema = z.object({
+  name: z.string().min(2, "Name is too short").max(100, "Name is too long").regex(/^[^<>]+$/, "Invalid characters"),
+  phone: z.string().regex(/^[0-9+\-\s]{7,15}$/, "Invalid phone number"),
+  email: z.string().email("Invalid email address"),
+  sessionType: z.enum(["online", "offline"]),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  time: z.string().regex(/^\d{2}:\d{2}\s?(AM|PM)$/i, "Invalid time format"),
+  message: z.string().max(500, "Message too long").optional().transform(v => v?.replace(/</g, "").replace(/>/g, "").trim()),
+}).strict();
+
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for") || "unknown";
-    const { success: rateLimitSuccess } = await rateLimit(ip, 5, 3600000); // 5 bookings/hr
+    const { success: rateLimitSuccess } = await rateLimit(`book_${ip}`, 5, 3600000); // 5 bookings/hr
     if (!rateLimitSuccess) {
       return NextResponse.json({ success: false, message: "Too many requests. Please try again later." }, { status: 429 });
     }
 
-    const body = await req.json();
-    let { name, phone, email, sessionType, date, time, message } = body;
-
-    // Basic sanitization
-    name = name?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
-    message = message?.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
-
-    if (!name || !phone || !email || !sessionType || !date || !time) {
-      return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
+    let body;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ success: false, message: "Invalid payload format" }, { status: 400 });
     }
 
-    if (name.length > 100) {
-      return NextResponse.json({ success: false, message: "Name is too long." }, { status: 400 });
+    const parsed = bookingSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ success: false, message: parsed.error.issues[0].message }, { status: 400 });
     }
 
-    if (!/^[0-9+\-\s]{7,15}$/.test(phone)) {
-      return NextResponse.json({ success: false, message: "Invalid phone number." }, { status: 400 });
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ success: false, message: "Invalid email address." }, { status: 400 });
-    }
-
-    if (!["online", "offline"].includes(sessionType)) {
-      return NextResponse.json({ success: false, message: "Invalid session type." }, { status: 400 });
-    }
-
-    if (message && message.length > 500) {
-      return NextResponse.json({ success: false, message: "Message too long." }, { status: 400 });
-    }
-
+    const { name, phone, email, sessionType, date, time, message } = parsed.data;
     const sessionLabel = sessionType === "online" ? "Online Session" : "In-Person Session";
 
     // Double booking check

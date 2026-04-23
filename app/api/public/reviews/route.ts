@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 
 // We can still use the ANON_KEY here because this is a server read-only endpoint that 
 // fetches approved reviews. This hides the keys from the frontend entirely.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 export async function GET(req: NextRequest) {
   if (!supabaseUrl || !supabaseKey) {
