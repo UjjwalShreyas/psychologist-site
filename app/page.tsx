@@ -20,8 +20,8 @@ export default function Home() {
         <section className="relative min-h-screen flex items-center bg-ivory overflow-hidden">
 
           {/* Background decorative circles */}
-          <div className="absolute 'top-[-100px] 'right-[-100px] 'w-[500px] 'h-[500px] rounded-full bg-teal-soft opacity-60 blur-3xl" />
-          <div className="absolute 'bottom-[-80px] 'left-[-80px] 'w-[350px] 'h-[350px] rounded-full bg-gold-soft opacity-50 blur-3xl" />
+          <div className="absolute top-[-100px] right-[-100px] w-[500px] h-[500px] rounded-full bg-teal-soft opacity-60 blur-3xl" />
+          <div className="absolute bottom-[-80px] left-[-80px] w-[350px] h-[350px] rounded-full bg-gold-soft opacity-50 blur-3xl" />
 
           <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20 grid md:grid-cols-2 gap-16 items-center">
 
@@ -96,7 +96,7 @@ export default function Home() {
   transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
   className="flex items-center justify-center"
 >
-  <div className="relative 'w-[280px] 'h-[280px] 'md:w-[420px] 'md:h-[420px]">
+  <div className="relative w-[280px] h-[280px] md:w-[420px] md:h-[420px]">
     {/* Outer ring */}
     <div className="absolute inset-0 rounded-full border-2 border-teal-soft animate-[spin_20s_linear_infinite]">
       <div className="absolute top-4 left-1/2 w-3 h-3 bg-gold rounded-full -translate-x-1/2" />
