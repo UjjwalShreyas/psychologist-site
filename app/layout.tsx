@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     siteName: "G. Suma Kavitha",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
