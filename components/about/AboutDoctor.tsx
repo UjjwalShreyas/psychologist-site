@@ -31,7 +31,7 @@ export default function AboutDoctor() {
             style={{ backgroundColor: "var(--ivory)", borderColor: "var(--teal-soft)" }}
           >
             <p className="font-sans text-xs uppercase tracking-widest" style={{ color: "var(--muted)" }}>Counselling Psycologist</p>
-            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}> &  Psycotherapist</p>
+            <p className="font-display italic text-lg mt-0.5" style={{ color: "var(--teal)" }}> &  Psychotherapist</p>
           </motion.div>
         </motion.div>
 
