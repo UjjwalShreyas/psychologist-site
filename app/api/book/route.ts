@@ -24,7 +24,7 @@ const bookingSchema = z.object({
   email: z.string().email("Invalid email address"),
   sessionType: z.enum(["online", "offline"]),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
-  time: z.string().regex(/^\d{2}:\d{2}\s?(AM|PM)$/i, "Invalid time format"),
+  time: z.string().regex(/^(1[0-2]|0?[1-9]):\d{2}\s(AM|PM)$/i, "Invalid time format"),
   message: z.string().max(500, "Message too long").optional().transform(v => v?.replace(/</g, "").replace(/>/g, "").trim()),
 }).strict();
 
