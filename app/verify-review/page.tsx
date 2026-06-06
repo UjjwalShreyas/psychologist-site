@@ -12,9 +12,8 @@ function VerifyContent() {
   const [status, setStatus] = useState<"loading" | "success" | "invalid" | "already">("loading");
 
   useEffect(() => {
-    if (!token) { setStatus("invalid"); return; }
-
     async function verify() {
+      if (!token) { setStatus("invalid"); return; }
       try {
         const res = await fetch(`/api/verify-review?token=${token}`);
         const data = await res.json();

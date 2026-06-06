@@ -97,7 +97,7 @@ export default function BookingForm() {
             </h2>
             <div className="mt-3 w-12 h-0.5 rounded-full mx-auto" style={{ backgroundColor: "var(--gold)" }} />
             <p className="mt-4 text-sm font-sans" style={{ color: "var(--muted)" }}>
-  Fill the form below and we'll confirm your slot.
+  Fill the form below and we&apos;ll confirm your slot.
 </p>
 <span className="inline-block mt-3 px-4 py-1.5 rounded-full text-xs font-semibold font-sans" style={{ backgroundColor: "var(--teal-soft)", color: "var(--teal)" }}>
   ✦ Appointment is free to book . Pay only after your session. ✦
@@ -246,7 +246,7 @@ export default function BookingForm() {
             {status === "success" && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 className="text-center text-green-600 font-medium text-sm font-sans">
-                ✅ Appointment request sent! We'll confirm shortly.
+                ✅ Appointment request sent! We&apos;ll confirm shortly.
               </motion.p>
             )}
 

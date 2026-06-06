@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Gallery | Workshops & Sessions by G. Suma Kavitha",
@@ -68,14 +69,14 @@ export default function GalleryPage() {
             <p className="text-sm font-sans mb-5" style={{ color: "var(--muted)" }}>
               Ready to begin your journey?
             </p>
-            <a href="/#booking">
+            <Link href="/#booking">
               <button
                 className="px-8 py-3.5 rounded-full text-white font-sans font-semibold text-sm tracking-wide shadow-md hover:shadow-lg transition-all"
                 style={{ backgroundColor: "var(--teal)" }}
               >
                 Book a Session
               </button>
-            </a>
+            </Link>
           </div>
 
         </div>

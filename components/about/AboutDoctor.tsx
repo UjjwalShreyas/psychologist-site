@@ -54,7 +54,7 @@ export default function AboutDoctor() {
 
           <p className="mt-6 text-base font-sans leading-relaxed" style={{ color: "var(--muted)" }}>
             G. Suma Kavitha is a counselling psychologist based in Hyderabad with over 10 years of experience
-            supporting individuals, families, and children through life's most challenging moments.
+            supporting individuals, families, and children through life&apos;s most challenging moments.
           </p>
 
           <p className="mt-4 text-base font-sans leading-relaxed" style={{ color: "var(--muted)" }}>

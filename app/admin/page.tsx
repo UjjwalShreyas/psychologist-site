@@ -350,7 +350,7 @@ export default function AdminPage() {
                   </div>
 
                   {/* Review text */}
-                  <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--ink)" }}>"{r.review}"</p>
+                  <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--ink)" }}>&quot;{r.review}&quot;</p>
 
                   {/* Meta */}
                   <div className="flex items-center justify-between text-xs font-sans" style={{ color: "var(--muted)" }}>

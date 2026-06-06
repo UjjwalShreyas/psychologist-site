@@ -37,14 +37,14 @@ export default function Footer() {
             <p className="text-sm font-sans leading-relaxed mb-5" style={{ color: "rgba(255,255,255,0.5)" }}>
               Ready to take the first step? Book a session today.
             </p>
-            <a href="/#booking">
+            <Link href="/#booking">
               <button
                 className="px-6 py-2.5 rounded-full font-sans text-sm font-medium transition-all"
                 style={{ backgroundColor: "var(--teal)", color: "white" }}
               >
                 Book Appointment
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -53,7 +53,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-2">
   <p className="text-xs font-sans" style={{ color: "rgba(255,255,255,0.25)" }}>
-    Hyderabad, India Made with ❤️ 
+    Hyderabad, India 
   </p>
   <span className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
   <a

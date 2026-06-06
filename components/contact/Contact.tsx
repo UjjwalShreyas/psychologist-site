@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Contact() {
   return (
@@ -93,7 +94,7 @@ export default function Contact() {
             <div className="h-px w-full" style={{ backgroundColor: "var(--teal-soft)" }} />
 
             {/* CTA */}
-            <a href="/#booking" className="block">
+            <Link href="/#booking" className="block">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -102,7 +103,7 @@ export default function Contact() {
               >
                 Book an Appointment
               </motion.button>
-            </a>
+            </Link>
 
           </motion.div>
 

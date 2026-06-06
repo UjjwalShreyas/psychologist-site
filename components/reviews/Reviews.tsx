@@ -36,7 +36,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
       </div>
 
       <p className="font-display text-xl italic leading-relaxed" style={{ color: "var(--ink)" }}>
-        "{r.review}"
+        &quot;{r.review}&quot;
       </p>
 
       <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: "var(--teal-soft)" }}>

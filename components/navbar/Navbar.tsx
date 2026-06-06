@@ -50,14 +50,14 @@ export default function Navbar() {
         </div>
 
         {/* CTA */}
-        <a href="/#booking" className="hidden md:block">
+        <Link href="/#booking" className="hidden md:block">
           <button
             className="px-5 py-2.5 rounded-full text-sm font-medium text-white transition-all duration-200 tracking-wide shadow-sm hover:shadow-md"
             style={{ backgroundColor: "var(--teal)" }}
           >
             Book Session
           </button>
-        </a>
+        </Link>
 
         {/* Mobile Menu Toggle */}
         <button
@@ -84,14 +84,14 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <a href="/#booking" onClick={() => setMenuOpen(false)}>
+          <Link href="/#booking" onClick={() => setMenuOpen(false)}>
             <button
               className="w-full text-white py-2.5 rounded-full text-sm font-medium mt-1"
               style={{ backgroundColor: "var(--teal)" }}
             >
               Book Session
             </button>
-          </a>
+          </Link>
         </div>
       )}
     </nav>

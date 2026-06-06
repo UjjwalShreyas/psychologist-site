@@ -3,17 +3,17 @@
 import { motion } from "framer-motion";
 
 const services = [
-  { title: "Anxiety Counselling", icon: "🧘", desc: "Evidence-based strategies to manage anxiety and reclaim calm." },
-  { title: "Depression Support", icon: "💙", desc: "Compassionate guidance through emotional darkness toward healing." },
-  { title: "Child Behavioural Counselling", icon: "🌱", desc: "Nurturing healthy development and behaviour in young children." },
-  { title: "Teen Counselling", icon: "✨", desc: "A safe space for adolescents navigating growth and identity." },
-  { title: "Family Therapy", icon: "🏡", desc: "Rebuilding connection and communication within families." },
-  { title: "Couples Counselling", icon: "🤝", desc: "Strengthening relationships through understanding and trust." },
-  { title: "Career Guidance", icon: "🎯", desc: "Aligning your strengths with purpose and professional clarity." },
-  { title: "Trauma & Emotional Healing", icon: "🌿", desc: "Gentle, safe processing of past wounds toward wholeness." },
-  { title :" Group Therapy", icon: "👥", desc: "Shared healing and growth in a supportive group setting." },
-  { title : "Stress Management Workshops", icon: "⚡", desc: "Practical tools to manage stress and enhance resilience." },
-  { title : "Study Skills Coaching", icon: "📚", desc: "Empowering students with effective study habits and mindset." },
+  { title: "Anxiety Counselling", desc: "Evidence-based strategies to manage anxiety and reclaim calm." },
+  { title: "Depression Support", desc: "Compassionate guidance through emotional darkness toward healing." },
+  { title: "Child Behavioural Counselling",  desc: "Nurturing healthy development and behaviour in young children." },
+  { title: "Teen Counselling", desc: "A safe space for adolescents navigating growth and identity." },
+  { title: "Family Therapy",  desc: "Rebuilding connection and communication within families." },
+  { title: "Couples Counselling", desc: "Strengthening relationships through understanding and trust." },
+  { title: "Career Guidance",  desc: "Aligning your strengths with purpose and professional clarity." },
+  { title: "Trauma & Emotional Healing",  desc: "Gentle, safe processing of past wounds toward wholeness." },
+  { title :" Group Therapy",  desc: "Shared healing and growth in a supportive group setting." },
+  { title : "Stress Management Workshops",  desc: "Practical tools to manage stress and enhance resilience." },
+  { title : "Study Skills Coaching",  desc: "Empowering students with effective study habits and mindset." },
 ];
 
 export default function Services() {
@@ -50,7 +50,7 @@ export default function Services() {
               whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(11,94,86,0.1)" }}
               className="bg-card p-6 rounded-2xl border border-teal-soft cursor-default transition-all duration-300 group"
             >
-              <span className="text-2xl">{service.icon}</span>
+              
               <h3 className="font-display italic text-xl text-ink mt-3 leading-tight group-hover:text-teal transition-colors">
                 {service.title}
               </h3>

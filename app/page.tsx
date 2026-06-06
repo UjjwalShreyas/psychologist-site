@@ -56,7 +56,7 @@ export default function Home() {
   </motion.button>
 </a>
 <p className="text-xs font-sans mt-2" style={{ color: "var(--muted)" }}>
-  ✦ Free to book · Pay only after your session
+  Free to book 
 </p>
                 <a href="/about">
                   <motion.button
@@ -117,7 +117,7 @@ export default function Home() {
       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       className="absolute bottom-8 -right-4 bg-card rounded-2xl shadow-lg px-4 py-3 border border-teal-soft"
     >
-      <p className="font-display italic text-teal text-sm">✦ Safe & Confidential</p>
+      <p className="font-display italic text-teal text-sm"> Safe & Confidential</p>
     </motion.div>
   </div>
 </motion.div>
